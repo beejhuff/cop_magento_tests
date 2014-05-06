@@ -1,0 +1,9 @@
+# cURL config file for checkout_simulator.sh
+# See http://curl.haxx.se/docs/manpage.html
+connect-timeout = 15
+max-time = 30
+insecure
+compressed 
+buffer
+-s
+-k
