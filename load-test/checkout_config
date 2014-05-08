@@ -2,6 +2,7 @@
 # See http://curl.haxx.se/docs/manpage.html
 connect-timeout = 15
 max-time = 30
+max-redirs = 0
 insecure
 compressed 
 buffer
