@@ -24,7 +24,7 @@ PROTO=http
 HOST=example.org
 # the PROTO and HOST are used like this:
 CART_URL=${PROTO}://${HOST}/checkout/cart/
-# boolean; toggles a faster test run that’s useful to for environment validation
+# boolean; toggles a faster test run that’s useful for environment validation
 FASTER=false
 # how long to pause in seconds between starting each simulated user (decimals allowed)
 # set to 0 for no delay, but this may skew results; values around 1 second seem optimal
@@ -52,9 +52,10 @@ then
   CONCURRENCIES=(1 2 4)
   CONCURRENCY_DURATION=300
 else
-  # Bash array of counts of threads to run
+  # Bash array of counts of threads to run; 1-to-1 equivalent to simulated users
   CONCURRENCIES=(10 20 40 60 80 100 120 140)
   # how long to run each level of concurrency, in seconds
+  # results are more reliable when tests run for at least 10 minutes
   CONCURRENCY_DURATION=1800
 fi
 
@@ -74,7 +75,8 @@ then
   RETRY_COUNT=2
   echo -e "FAST MODE\n"
 else
-  # prime numbers can spread out the load
+  # prime numbers can spread out the load by reducing request overlaps
+  #
   # seconds between each page load
   PAGE_SLEEP=1
   # seconds between each checkout step
@@ -114,10 +116,10 @@ function clean_up {
     rm -f *.tmp
     printf " done.\n\n"
   fi
-  exit
+  exit 0
 }
 
-# visit 3 products
+# visit products
 # add them to the cart
 # view the cart
 # checkout
@@ -136,7 +138,7 @@ timed_shop() {
   local MY_ERROR_COUNT=0
 
   # Perform the actions for x many seconds
-  # Note that if this loop is really long the rate of orders will be skewed
+  # Note that if this loop is really long the rate of orders may be skewed
   while [ $SECONDS -le $MY_SECONDS_TARGET ]
   do
     local START=$SECONDS
@@ -468,7 +470,7 @@ function find_cart_url {
   #
   # find the line of HTML containing the cart URL and
   # extract the value of the form action from this line of HTML
-  # REVIEW: regular expression is sub-optimal for HTML
+  # REVIEW: regular expressions are sub-optimal for HTML
   echo `cat $1 | grep -F 'checkout/cart/add' | sed 's/.* action="\([^"]*\)".*/\1/'`
 }
 
