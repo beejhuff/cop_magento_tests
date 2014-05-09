@@ -22,7 +22,9 @@ Tested with Ubuntu 12.04 LTS, GNU bash 4.2.25, and curl 7.22.0 (Linux 3.8 kernel
 2. Place the `checkout_config` file in the same directory as the above file
 3. Make the file executable with `chmod u+x checkout_simulator.sh`
 4. Edit the file to adjust its configurations; example: `vi checkout_simulator`
-5. Run the script, ideally in a [backgrounded, virtual terminal](https://www.gnu.org/software/screen/) with `./checkout_simulator.sh`
+5. Edit the URLs in the script to match your test site
+6. Edit the cURL options to match your test site (i.e. `POST` versus `GET`, HTTP params, HTTP headers, etc)
+7. Run the script, ideally in a [backgrounded, virtual terminal](https://www.gnu.org/software/screen/) with `./checkout_simulator.sh`
 
 ## History
 
